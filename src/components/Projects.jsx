@@ -32,8 +32,13 @@ const ProjectCard = ({ project, index }) => (
             <a href={project.html_url} target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-all hover:scale-110">
               <FiGithub size={20} />
             </a>
-            {project.homepage && (
-              <a href={project.homepage} target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-all hover:scale-110">
+            {(resumeData.projectLinks?.[project.name] || project.homepage) && (
+              <a 
+                href={resumeData.projectLinks?.[project.name] || project.homepage} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="hover:text-primary transition-all hover:scale-110"
+              >
                 <FiExternalLink size={20} />
               </a>
             )}
@@ -81,10 +86,18 @@ const Projects = () => {
     const fetchProjects = async () => {
       try {
         const response = await axios.get(
-          `https://api.github.com/users/${resumeData.github}/repos?sort=updated&per_page=9`
+          `https://api.github.com/users/${resumeData.github}/repos?sort=updated&per_page=30`
         );
-        const filtered = response.data.filter(repo => !repo.fork).slice(0, 6);
-        setProjects(filtered);
+        
+        // Filter out forks
+        let allRepos = response.data.filter(repo => !repo.fork);
+        
+        // Prioritize specific projects
+        const prioritizedNames = ["CampusTrade", "SyntaxArena", "Simon-says-Memory-Flash-Challenge"];
+        const featured = allRepos.filter(repo => prioritizedNames.includes(repo.name));
+        const others = allRepos.filter(repo => !prioritizedNames.includes(repo.name));
+        
+        setProjects([...featured, ...others].slice(0, 6));
       } catch (error) {
         console.error("Error fetching projects:", error);
       } finally {

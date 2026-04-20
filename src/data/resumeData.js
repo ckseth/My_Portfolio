@@ -46,5 +46,10 @@ export const resumeData = {
     "Deloitte: Completed Deloitte Data Analytics simulation via Forage.",
     "Apna College: Completed Delta Full Stack Web Development course (MERN Stack).",
     "Infosys Springboard: Certified in Computer Vision, Deep Learning, NLP, and RPA.",
-  ]
+  ],
+  projectLinks: {
+    "CampusTrade": "https://campus-trade-c005.netlify.app/",
+    "SyntaxArena": "https://ckseth.github.io/SyntaxArena/",
+    "Simon-says-Memory-Flash-Challenge": "https://ckseth.github.io/Simon-says-Memory-Flash-Challenge/",
+  }
 };
