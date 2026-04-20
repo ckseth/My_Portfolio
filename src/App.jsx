@@ -7,6 +7,7 @@ import Projects from "./components/Projects";
 import Experience from "./components/Experience";
 import Contact from "./components/Contact";
 import ScrollProgress from "./components/ScrollProgress";
+import Background from "./components/Background";
 import { motion, AnimatePresence } from "framer-motion";
 
 function App() {
@@ -33,7 +34,8 @@ function App() {
   }, []);
 
   return (
-    <div className="min-h-screen transition-colors duration-500">
+    <div className="min-h-screen transition-colors duration-500 selection:bg-purple-500/30">
+      <Background />
       <ScrollProgress />
       <Navbar darkMode={darkMode} toggleTheme={toggleTheme} />
       
