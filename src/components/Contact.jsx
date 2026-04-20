@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { FiSend, FiGithub, FiLinkedin, FiMail } from "react-icons/fi";
+import { FiSend, FiGithub, FiLinkedin, FiMail, FiMapPin } from "react-icons/fi";
 import { resumeData } from "../data/resumeData";
 
 const Contact = () => {
@@ -10,7 +10,6 @@ const Contact = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setStatus("sending");
-    // Simulate form submission
     setTimeout(() => {
       setStatus("success");
       setFormData({ name: "", email: "", message: "" });
@@ -20,105 +19,109 @@ const Contact = () => {
 
   return (
     <section id="contact" className="scroll-mt-24">
-      <div className="max-w-5xl mx-auto glass-card rounded-[2.5rem] overflow-hidden">
-        <div className="flex flex-col md:flex-row">
+      <div className="max-w-6xl mx-auto glass-card rounded-[3rem] overflow-hidden border-white/5">
+        <div className="flex flex-col lg:flex-row">
           {/* Contact Info Sidebar */}
-          <div className="bg-primary p-12 md:w-2/5 text-white flex flex-col justify-between relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-16 -mt-16 blur-2xl" />
+          <div className="bg-gradient-to-br from-brand-primary to-brand-secondary p-12 lg:w-2/5 text-white flex flex-col justify-between relative">
+            <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -mr-32 -mt-32 blur-3xl opacity-50" />
             
             <div>
-              <h2 className="text-4xl font-bold mb-6">Let's Connect</h2>
-              <p className="text-white/80 mb-10">
-                I'm currently looking for new opportunities and collaborations. 
-                My inbox is always open whether you have a question or just want to say hi!
+              <h2 className="text-5xl font-black tracking-tighter mb-8 italic">Let's <br />Collaborate</h2>
+              <p className="text-white/80 text-lg font-medium mb-12 leading-relaxed">
+                I'm currently looking for new opportunities as a <span className="text-white font-black underline decoration-2 underline-offset-4">Full Stack Developer</span>. 
+                Whether you have a question or a project idea, I'm just a message away.
               </p>
 
-              <div className="space-y-6">
-                <a href={`mailto:${resumeData.email}`} className="flex items-center gap-4 hover:translate-x-2 transition-transform">
-                  <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
-                    <FiMail />
+              <div className="space-y-8">
+                <a href={`mailto:${resumeData.email}`} className="flex items-center gap-5 group">
+                  <div className="w-12 h-12 rounded-2xl bg-white/20 border border-white/30 flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <FiMail size={22} />
                   </div>
-                  <span>{resumeData.email}</span>
+                  <div className="text-lg font-bold tracking-tight">{resumeData.email}</div>
                 </a>
-                <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
-                    <FiLinkedin />
+                <div className="flex items-center gap-5 group">
+                  <div className="w-12 h-12 rounded-2xl bg-white/20 border border-white/30 flex items-center justify-center">
+                    <FiMapPin size={22} />
                   </div>
-                  <span>linkedin.com/in/{resumeData.linkedin}</span>
+                  <div className="text-lg font-bold tracking-tight">{resumeData.location}</div>
                 </div>
               </div>
             </div>
 
-            <div className="flex gap-4 mt-12">
-              {[
-                { icon: <FiGithub size={20} />, href: `https://github.com/${resumeData.github}` },
-                { icon: <FiLinkedin size={20} />, href: `https://linkedin.com/in/${resumeData.linkedin}` },
-              ].map((social, i) => (
-                <a
-                  key={i}
-                  href={social.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-12 h-12 rounded-2xl bg-white/10 hover:bg-white text-primary border border-white/20 flex items-center justify-center transition-all hover:text-primary active:scale-90"
-                >
-                  {social.icon}
-                </a>
-              ))}
+            <div className="flex gap-6 mt-16">
+              <a
+                href={`https://github.com/${resumeData.github}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-14 h-14 rounded-2xl bg-white/10 border border-white/20 flex items-center justify-center hover:bg-white hover:text-brand-primary transition-all active:scale-95"
+              >
+                <FiGithub size={24} />
+              </a>
+              <a
+                href={`https://linkedin.com/in/${resumeData.linkedin}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-14 h-14 rounded-2xl bg-white/10 border border-white/20 flex items-center justify-center hover:bg-white hover:text-brand-primary transition-all active:scale-95"
+              >
+                <FiLinkedin size={24} />
+              </a>
             </div>
           </div>
 
           {/* Contact Form */}
-          <div className="p-12 md:w-3/5">
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div>
-                <label className="block text-sm font-medium mb-2 text-muted-foreground">Your Name</label>
-                <input
-                  type="text"
-                  required
-                  value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  className="w-full bg-secondary/50 border border-border rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
-                  placeholder="John Doe"
-                />
+          <div className="p-12 lg:w-3/5 bg-black/40">
+            <form onSubmit={handleSubmit} className="space-y-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div className="space-y-2">
+                  <label className="text-xs font-black uppercase text-muted-foreground tracking-widest ml-1">Your Name</label>
+                  <input
+                    type="text"
+                    required
+                    value={formData.name}
+                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                    className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 focus:outline-none focus:ring-2 focus:ring-brand-primary/50 focus:border-brand-primary transition-all font-bold placeholder:text-white/20"
+                    placeholder="Enter your name"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-xs font-black uppercase text-muted-foreground tracking-widest ml-1">Your Email</label>
+                  <input
+                    type="email"
+                    required
+                    value={formData.email}
+                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                    className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 focus:outline-none focus:ring-2 focus:ring-brand-primary/50 focus:border-brand-primary transition-all font-bold placeholder:text-white/20"
+                    placeholder="name@company.com"
+                  />
+                </div>
               </div>
-              <div>
-                <label className="block text-sm font-medium mb-2 text-muted-foreground">Your Email</label>
-                <input
-                  type="email"
-                  required
-                  value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  className="w-full bg-secondary/50 border border-border rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
-                  placeholder="john@example.com"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium mb-2 text-muted-foreground">Message</label>
+              <div className="space-y-2">
+                <label className="text-xs font-black uppercase text-muted-foreground tracking-widest ml-1">Message</label>
                 <textarea
                   required
-                  rows="4"
+                  rows="5"
                   value={formData.message}
                   onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                  className="w-full bg-secondary/50 border border-border rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all resize-none"
-                  placeholder="How can I help you?"
+                  className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 focus:outline-none focus:ring-2 focus:ring-brand-primary/50 focus:border-brand-primary transition-all font-bold placeholder:text-white/20 resize-none"
+                  placeholder="How can I help you today?"
                 />
               </div>
               <button
                 type="submit"
                 disabled={status === "sending"}
-                className={`w-full py-4 rounded-xl font-bold flex items-center justify-center gap-2 transition-all ${
+                className={`w-full py-5 rounded-2xl font-black text-lg flex items-center justify-center gap-3 transition-all ${
                   status === "success" 
                   ? "bg-green-500 text-white" 
-                  : "bg-primary text-white neon-glow hover:scale-[1.02] active:scale-95"
+                  : "bg-brand-primary text-white neon-glow hover:scale-[1.01] active:scale-95 shadow-lg shadow-brand-primary/20"
                 }`}
               >
                 {status === "sending" ? (
-                  <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                  <div className="w-6 h-6 border-3 border-white/20 border-t-white rounded-full animate-spin" />
                 ) : status === "success" ? (
-                  "Message Sent!"
+                  "Submitted Successfully!"
                 ) : (
                   <>
-                    Send Message <FiSend />
+                    Launch Message <FiSend className="rotate-45" />
                   </>
                 )}
               </button>
