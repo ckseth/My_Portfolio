@@ -5,7 +5,7 @@ export const resumeData = {
   email: "kumarichhavi60@gmail.com",
   phone: "+91 6204022479",
   location: "Chandigarh, India",
-  github: "-chhavi-kumari",
+  github: "ckseth",
   linkedin: "-chhavi-kumari",
   skills: {
     frontend: [
@@ -76,5 +76,7 @@ export const resumeData = {
     "CampusTrade": "https://campus-trade-c005.netlify.app/",
     "SyntaxArena": "https://ckseth.github.io/SyntaxArena/",
     "Simon-says-Memory-Flash-Challenge": "https://ckseth.github.io/Simon-says-Memory-Flash-Challenge/",
+    "SkillSphere-AI-Learning-Skill-Exchange-Network": "https://ckseth.github.io/SkillSphere/",
+    "Text-to-speech-converter": "https://ckseth.github.io/Text-to-speech-converter/",
   }
 };

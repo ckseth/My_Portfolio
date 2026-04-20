@@ -93,7 +93,12 @@ const Projects = () => {
         let allRepos = response.data.filter(repo => !repo.fork);
         
         // Prioritize specific projects
-        const prioritizedNames = ["CampusTrade", "SyntaxArena", "Simon-says-Memory-Flash-Challenge"];
+        const prioritizedNames = [
+          "CampusTrade", 
+          "SkillSphere-AI-Learning-Skill-Exchange-Network", 
+          "SyntaxArena", 
+          "Simon-says-Memory-Flash-Challenge"
+        ];
         const featured = allRepos.filter(repo => prioritizedNames.includes(repo.name));
         const others = allRepos.filter(repo => !prioritizedNames.includes(repo.name));
         
