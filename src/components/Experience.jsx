@@ -1,115 +1,93 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { resumeData } from "../data/resumeData";
-import { FiBookOpen, FiCalendar, FiAward, FiCheckCircle, FiHeart } from "react-icons/fi";
+import { FiCalendar, FiMapPin, FiStar, FiTriangle } from "react-icons/fi";
 
-const EducationItem = ({ edu, index }) => (
+const ExperienceCard = ({ edu, index }) => (
   <motion.div
-    initial={{ opacity: 0, y: 30 }}
-    whileInView={{ opacity: 1, y: 0 }}
+    initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
+    whileInView={{ opacity: 1, x: 0 }}
     viewport={{ once: true }}
-    transition={{ duration: 0.6, delay: index * 0.1 }}
-    className="relative pl-12 border-l-2 border-brand-primary/20 pb-12 last:pb-0"
+    transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+    className="group relative"
   >
-    <div className="absolute left-[-9px] top-0 w-4 h-4 rounded-full bg-brand-primary border-4 border-background shadow-[0_0_10px_rgba(147,51,234,0.5)]" />
-    
-    <div className="glass-card p-6 md:p-8 rounded-3xl group hover:border-brand-primary/30 transition-all">
-      <div className="flex flex-wrap justify-between items-center gap-4 mb-3">
-        <h3 className="text-xl md:text-2xl font-extrabold text-white group-hover:text-brand-primary transition-colors">
-          {edu.title}
-        </h3>
-        <div className="flex items-center gap-2 px-4 py-1 rounded-full bg-brand-primary/10 text-brand-primary text-[10px] font-black uppercase tracking-tighter">
-          <FiCalendar />
-          {edu.duration}
+    <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start py-20 border-t border-mocha/10">
+      {/* Date Column */}
+      <div className="md:col-span-3">
+        <div className="inline-flex items-center gap-3 px-6 py-2 rounded-full border border-mocha/10 text-[10px] font-black uppercase tracking-[0.3em] text-mocha/60">
+          <FiCalendar /> {edu.duration}
         </div>
       </div>
-      <div className="text-lg font-semibold text-brand-primary/80 mb-2">{edu.institution}</div>
-      <div className="inline-block px-3 py-1 rounded-lg bg-white/5 border border-white/10 text-sm font-bold text-muted-foreground">
-        Result: <span className="text-white">{edu.status}</span>
+
+      {/* Content Column */}
+      <div className="md:col-span-6">
+        <h3 className="text-4xl md:text-5xl font-serif font-black mb-4 tracking-tighter text-mocha dark:text-white uppercase leading-none">
+          {edu.title}
+        </h3>
+        <div className="text-xl font-bold text-bronze uppercase tracking-widest mb-6">{edu.institution}</div>
+      </div>
+
+      {/* Status Column */}
+      <div className="md:col-span-3 text-right hidden md:block">
+        <div className="text-xs font-black uppercase tracking-[0.5em] text-mocha/20 mb-2">Academic Standing</div>
+        <div className="text-3xl font-serif font-black italic text-mocha/40">{edu.status}</div>
       </div>
     </div>
   </motion.div>
 );
 
-const AchievementCard = ({ text, index }) => {
-  const colors = [
-    "border-blue-500/50 text-blue-500 bg-blue-500/5",
-    "border-emerald-500/50 text-emerald-500 bg-emerald-500/5",
-    "border-orange-500/50 text-orange-500 bg-orange-500/5",
-    "border-purple-500/50 text-purple-500 bg-purple-500/5",
-  ];
-  return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.95 }}
-      whileInView={{ opacity: 1, scale: 1 }}
-      viewport={{ once: true }}
-      transition={{ delay: index * 0.1 }}
-      className={`p-5 rounded-2xl border flex items-start gap-4 transition-all hover:translate-y-[-5px] ${colors[index % colors.length]}`}
-    >
-      <div className="mt-1 flex-shrink-0">
-        <FiCheckCircle size={18} />
-      </div>
-      <p className="text-sm font-bold tracking-tight text-foreground/90 leading-snug">
-        {text}
-      </p>
-    </motion.div>
-  );
-};
-
 const Experience = () => {
   return (
-    <section id="experience" className="scroll-mt-24">
-      <div className="text-center mb-16">
-        <p className="text-primary text-sm font-bold uppercase tracking-[0.3em] mb-4">Educational Background</p>
-        <h2 className="text-4xl md:text-6xl font-black tracking-tighter mb-4">
-          Journey & <span className="text-gradient">Academics</span>
-        </h2>
-      </div>
-
-      <div className="max-w-4xl mx-auto mb-32">
-        {resumeData.education.map((edu, index) => (
-          <EducationItem key={index} edu={edu} index={index} />
-        ))}
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 max-w-7xl mx-auto">
-        {/* Achievements Section */}
-        <div>
-          <div className="flex items-center gap-4 mb-10">
-            <div className="p-3 rounded-2xl bg-brand-primary/10 text-brand-primary">
-              <FiAward size={24} />
-            </div>
-            <h3 className="text-3xl font-black tracking-tighter">Achievements</h3>
-          </div>
-          <div className="grid grid-cols-1 gap-4">
-            {resumeData.achievements.map((ach, i) => (
-              <AchievementCard key={i} text={ach} index={i} />
-            ))}
-          </div>
+    <section id="experience" className="py-32 scroll-mt-24 overflow-hidden">
+      <div className="max-w-7xl mx-auto px-4 md:px-8">
+        <div className="text-center mb-32 relative">
+          <motion.div
+            animate={{ rotate: 360 }}
+            transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-[0.03] select-none pointer-events-none"
+          >
+            <FiTriangle size={400} className="text-mocha" />
+          </motion.div>
+          
+          <span className="text-xs font-black uppercase tracking-[0.5em] text-mocha/40 block mb-6 px-4">The Chronology</span>
+          <h2 className="text-6xl md:text-[8rem] font-serif font-black tracking-tighter text-mocha dark:text-white leading-[0.85]">
+            ACADEMIC <br /> <span className="text-luxury">PEDIGREE</span>
+          </h2>
         </div>
 
-        {/* Hobbies Section */}
-        <div>
-          <div className="flex items-center gap-4 mb-10">
-            <div className="p-3 rounded-2xl bg-brand-primary/10 text-brand-primary">
-              <FiHeart size={24} />
-            </div>
-            <h3 className="text-3xl font-black tracking-tighter">Hobbies & Interests</h3>
+        <div className="flex flex-col">
+          {resumeData.education.map((edu, index) => (
+            <ExperienceCard key={index} edu={edu} index={index} />
+          ))}
+          <div className="border-t border-mocha/10 w-full" />
+        </div>
+
+        {/* Honors Sidebar layout */}
+        <div className="mt-40 grid grid-cols-1 lg:grid-cols-12 gap-20">
+          <div className="lg:col-span-4 self-start sticky top-32">
+            <h3 className="text-4xl font-serif font-black uppercase tracking-tighter mb-8 leading-tight">
+              HONORS & <br /> <span className="text-bronze italic">SPECIFICATIONS</span>
+            </h3>
+            <p className="text-mocha/60 text-lg leading-relaxed font-medium">
+              A curated selection of industrial certifications and high-level project achievements.
+            </p>
           </div>
-          <div className="grid grid-cols-1 gap-4">
-            {resumeData.hobbies.map((hobby, i) => (
+          <div className="lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-12">
+            {resumeData.achievements.map((ach, i) => (
               <motion.div
                 key={i}
-                initial={{ opacity: 0, x: 20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.1 }}
-                className="p-6 glass-card rounded-3xl flex items-center gap-5 group hover:border-brand-primary/30 transition-all"
+                className="group"
               >
-                <div className="w-2 h-2 rounded-full bg-brand-primary group-hover:scale-150 transition-transform" />
-                <span className="text-lg font-bold text-foreground/80 group-hover:text-white transition-colors">
-                  {hobby}
-                </span>
+                <div className="flex items-start gap-6 mb-4">
+                  <FiStar className="text-bronze mt-1" size={24} />
+                  <p className="text-xl font-bold leading-tight text-mocha dark:text-white/90">
+                    {ach}
+                  </p>
+                </div>
+                <div className="h-px w-full bg-mocha/5 group-hover:bg-bronze transition-all" />
               </motion.div>
             ))}
           </div>

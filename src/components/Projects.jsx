@@ -1,82 +1,79 @@
 import React, { useState, useEffect } from "react";
-import { motion } from "framer-motion";
-import Tilt from 'react-parallax-tilt';
+import { motion, AnimatePresence } from "framer-motion";
 import axios from "axios";
-import { FiGithub, FiExternalLink, FiFolder, FiStar } from "react-icons/fi";
+import { FiGithub, FiExternalLink, FiArrowUpRight, FiLayers } from "react-icons/fi";
 import { resumeData } from "../data/resumeData";
 
-const ProjectCard = ({ project, index }) => (
-  <motion.div
-    initial={{ opacity: 0, y: 30 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    viewport={{ once: true }}
-    transition={{ delay: index * 0.1 }}
-  >
-    <Tilt
-      tiltMaxAngleX={15}
-      tiltMaxAngleY={15}
-      perspective={1000}
-      glareEnable={true}
-      glareMaxOpacity={0.15}
-      className="h-full"
+const ProjectCard = ({ project, index }) => {
+  const [isHovered, setIsHovered] = useState(false);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 50 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.8, delay: index * 0.15 }}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      className="relative group h-[500px] md:h-[600px] w-full overflow-hidden rounded-[3rem] cursor-pointer"
     >
-      <div className="glass-card p-6 h-full flex flex-col group relative overflow-hidden">
-        {/* Glow behind folder icon */}
-        <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 blur-3xl -mr-16 -mt-16 group-hover:bg-primary/10 transition-all" />
+      {/* Background with dynamic coloring based on project */}
+      <div className="absolute inset-0 bg-mocha/5 dark:bg-white/5 transition-transform duration-1000 group-hover:scale-105" />
+      
+      {/* Editorial Tech Badge */}
+      <div className="absolute top-10 left-10 z-20">
+        <span className="px-5 py-2 glass-btn bg-white/80 dark:bg-stone-900/80 text-[10px] font-black uppercase tracking-widest leading-none">
+          {project.language || "Open Source"}
+        </span>
+      </div>
+
+      {/* Main Content Overlay */}
+      <div className="absolute inset-0 z-10 flex flex-col justify-end p-10 md:p-14 text-white">
+        {/* Gradient Shadow for readability */}
+        <div className="absolute inset-0 bg-gradient-to-t from-mocha via-mocha/40 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-700" />
         
-        <div className="flex justify-between items-start mb-8 relative z-10">
-          <div className="p-3 rounded-2xl bg-white/5 border border-white/10 text-primary">
-            <FiFolder size={24} />
-          </div>
-          <div className="flex gap-4 text-muted-foreground">
-            <a href={project.html_url} target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-all hover:scale-110">
-              <FiGithub size={20} />
-            </a>
-            {(resumeData.projectLinks?.[project.name] || project.homepage) && (
-              <a 
-                href={resumeData.projectLinks?.[project.name] || project.homepage} 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className="hover:text-primary transition-all hover:scale-110"
+        <div className="relative transform transition-all duration-700 group-hover:translate-y-[-20px]">
+          <h3 className="text-4xl md:text-6xl font-serif font-black mb-6 tracking-tight leading-tight uppercase">
+            {project.name.replace(/-/g, " ")}
+          </h3>
+          
+          <AnimatePresence>
+            {isHovered && (
+              <motion.p
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                exit={{ opacity: 0, height: 0 }}
+                className="text-white/70 text-lg md:text-xl mb-8 max-w-xl font-medium leading-relaxed"
               >
-                <FiExternalLink size={20} />
-              </a>
+                {project.description || "A meticulously crafted software solution designed for scale and user impact. Built with modern patterns and a focus on architectural integrity."}
+              </motion.p>
             )}
+          </AnimatePresence>
+
+          <div className="flex gap-4">
+            <a 
+              href={resumeData.projectLinks?.[project.name] || project.homepage || project.html_url}
+              target="_blank"
+              className="w-16 h-16 rounded-full bg-bronze text-mocha flex items-center justify-center hover:scale-110 active:scale-95 transition-all shadow-xl"
+            >
+              <FiArrowUpRight size={28} />
+            </a>
+            <a 
+              href={project.html_url}
+              target="_blank"
+              className="w-16 h-16 rounded-full bg-white/20 backdrop-blur-md text-white flex items-center justify-center hover:scale-110 active:scale-95 transition-all border border-white/20"
+            >
+              <FiGithub size={24} />
+            </a>
           </div>
-        </div>
-
-        <h3 className="text-xl font-bold mb-3 group-hover:text-primary transition-colors">
-          {project.name.replace(/-/g, " ")}
-        </h3>
-        <p className="text-muted-foreground text-sm line-clamp-3 mb-8 flex-grow leading-relaxed">
-          {project.description || "Sophisticated technology project focused on scalability, performance, and modern UI/UX principles."}
-        </p>
-
-        <div className="flex flex-wrap gap-2 mb-6">
-          {project.language && (
-            <span className="text-[10px] px-2.5 py-1 rounded-full bg-primary/10 text-primary font-black uppercase tracking-wider">
-              {project.language}
-            </span>
-          )}
-          {project.topics && project.topics.slice(0, 2).map(tag => (
-            <span key={tag} className="text-[10px] px-2.5 py-1 rounded-full bg-white/5 text-muted-foreground font-bold uppercase tracking-wider">
-              {tag}
-            </span>
-          ))}
-        </div>
-
-        <div className="flex items-center gap-4 text-[10px] font-bold text-muted-foreground/60 uppercase tracking-widest pt-4 border-t border-white/5">
-          <div className="flex items-center gap-1.5">
-            <FiStar className="text-yellow-500" />
-            <span>{project.stargazers_count}</span>
-          </div>
-          <div className="w-1 h-1 bg-white/10 rounded-full" />
-          <span>Updated {new Date(project.updated_at).toLocaleDateString(undefined, { month: 'short', year: 'numeric' })}</span>
         </div>
       </div>
-    </Tilt>
-  </motion.div>
-);
+
+      {/* Floating Design Element */}
+      <div className="absolute -bottom-20 -right-20 w-80 h-80 bg-bronze/10 rounded-full blur-[100px] group-hover:bg-bronze/20 transition-all duration-700" />
+    </motion.div>
+  );
+};
 
 const Projects = () => {
   const [projects, setProjects] = useState([]);
@@ -88,21 +85,11 @@ const Projects = () => {
         const response = await axios.get(
           `https://api.github.com/users/${resumeData.github}/repos?sort=updated&per_page=30`
         );
-        
-        // Filter out forks
         let allRepos = response.data.filter(repo => !repo.fork);
-        
-        // Prioritize specific projects
-        const prioritizedNames = [
-          "CampusTrade", 
-          "SkillSphere-AI-Learning-Skill-Exchange-Network", 
-          "SyntaxArena", 
-          "Simon-says-Memory-Flash-Challenge"
-        ];
+        const prioritizedNames = ["CampusTrade", "SkillSphere-AI-Learning-Skill-Exchange-Network", "SyntaxArena", "Simon-says-Memory-Flash-Challenge"];
         const featured = allRepos.filter(repo => prioritizedNames.includes(repo.name));
         const others = allRepos.filter(repo => !prioritizedNames.includes(repo.name));
-        
-        setProjects([...featured, ...others].slice(0, 6));
+        setProjects([...featured, ...others].slice(0, 4)); // Using 4 for a clean grid
       } catch (error) {
         console.error("Error fetching projects:", error);
       } finally {
@@ -113,30 +100,48 @@ const Projects = () => {
   }, []);
 
   return (
-    <section id="projects" className="scroll-mt-24">
-      <div className="text-center mb-16">
-        <motion.p 
+    <section id="projects" className="py-32 scroll-mt-24">
+      <div className="max-w-7xl mx-auto px-4 md:px-8">
+        <div className="flex flex-col md:flex-row justify-between items-end mb-24 gap-12">
+          <div className="max-w-2xl">
+            <span className="text-xs font-black uppercase tracking-[0.5em] text-mocha/40 dark:text-white/40 mb-6 block font-sans">Selected Works</span>
+            <h2 className="text-6xl md:text-8xl font-serif font-black tracking-tighter text-mocha dark:text-white leading-none">
+              RECENT <br /> <span className="text-luxury">PROJECTS</span>
+            </h2>
+          </div>
+          <p className="text-mocha/60 dark:text-white/60 text-xl md:text-2xl max-w-lg italic font-serif leading-relaxed text-right md:text-left">
+            "Design is a formal response to a strategic question." Focusing on scalability and flawless execution.
+          </p>
+        </div>
+
+        {loading ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+            {[1, 2, 3, 4].map(n => (
+              <div key={n} className="h-[500px] md:h-[600px] rounded-[3rem] bg-mocha/5 animate-pulse" />
+            ))}
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16">
+            {projects.map((project, index) => (
+              <ProjectCard key={project.id} project={project} index={index} />
+            ))}
+          </div>
+        )}
+
+        <motion.div 
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
-          className="text-primary text-sm font-bold uppercase tracking-[0.3em] mb-4"
+          className="mt-24 text-center"
         >
-          My Creative Work
-        </motion.p>
-        <h2 className="text-4xl md:text-6xl font-black tracking-tighter mb-4">
-          Latest <span className="text-gradient">Creations</span>
-        </h2>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
-        {loading ? (
-          [1, 2, 3, 4, 5, 6].map(i => (
-            <div key={i} className="glass-card h-80 animate-pulse bg-white/5" />
-          ))
-        ) : (
-          projects.map((project, index) => (
-            <ProjectCard key={project.id} project={project} index={index} />
-          ))
-        )}
+          <a 
+            href={`https://github.com/${resumeData.github}`}
+            target="_blank"
+            className="inline-flex items-center gap-4 text-mocha/60 dark:text-white/60 font-black uppercase tracking-widest text-sm hover:text-bronze transition-colors group"
+          >
+            <FiLayers /> View Expanded Archive
+            <div className="w-12 h-[1px] bg-mocha/20 group-hover:w-20 group-hover:bg-bronze transition-all" />
+          </a>
+        </motion.div>
       </div>
     </section>
   );

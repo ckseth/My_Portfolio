@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { FiSend, FiGithub, FiLinkedin, FiMail, FiMapPin } from "react-icons/fi";
+import { FiSend, FiGithub, FiLinkedin, FiMail, FiMapPin, FiArrowUpRight } from "react-icons/fi";
 import { resumeData } from "../data/resumeData";
 
 const Contact = () => {
@@ -18,114 +18,100 @@ const Contact = () => {
   };
 
   return (
-    <section id="contact" className="scroll-mt-24">
-      <div className="max-w-6xl mx-auto glass-card rounded-[3rem] overflow-hidden border-white/5">
-        <div className="flex flex-col lg:flex-row">
-          {/* Contact Info Sidebar */}
-          <div className="bg-gradient-to-br from-brand-primary to-brand-secondary p-12 lg:w-2/5 text-white flex flex-col justify-between relative">
-            <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -mr-32 -mt-32 blur-3xl opacity-50" />
-            
+    <section id="contact" className="py-32 scroll-mt-24">
+      <div className="max-w-7xl mx-auto px-4 md:px-8">
+        <div className="premium-card relative overflow-hidden bg-white/70 dark:bg-stone-900/70 p-12 md:p-24 border-mocha/5">
+          {/* Subtle atmospheric glow */}
+          <div className="absolute top-0 right-0 w-96 h-96 bg-bronze/5 rounded-full blur-[100px] -mr-48 -mt-48" />
+          
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 relative z-10">
             <div>
-              <h2 className="text-5xl font-black tracking-tighter mb-8 italic">Let's <br />Collaborate</h2>
-              <p className="text-white/80 text-lg font-medium mb-12 leading-relaxed">
-                I'm currently looking for new opportunities as a <span className="text-white font-black underline decoration-2 underline-offset-4">Full Stack Developer</span>. 
-                Whether you have a question or a project idea, I'm just a message away.
+              <span className="text-xs font-black uppercase tracking-[0.5em] text-mocha/40 dark:text-white/40 mb-6 block">Ready for impact</span>
+              <h2 className="text-6xl md:text-8xl font-serif font-black tracking-tighter text-mocha dark:text-white leading-[0.85] mb-12 italic">
+                LET'S <br /> <span className="text-luxury not-italic">BUILD IT.</span>
+              </h2>
+              <p className="text-xl text-mocha/60 dark:text-white/60 mb-16 max-w-md leading-relaxed font-medium">
+                "Small details make perfection, but perfection is not a small detail." Let's create something world-class together.
               </p>
 
-              <div className="space-y-8">
-                <a href={`mailto:${resumeData.email}`} className="flex items-center gap-5 group">
-                  <div className="w-12 h-12 rounded-2xl bg-white/20 border border-white/30 flex items-center justify-center group-hover:scale-110 transition-transform">
-                    <FiMail size={22} />
+              <div className="space-y-10">
+                <a href={`mailto:${resumeData.email}`} className="flex items-center gap-6 group">
+                  <div className="w-16 h-16 rounded-full bg-mocha text-white dark:bg-white dark:text-mocha flex items-center justify-center group-hover:scale-110 transition-transform shadow-xl">
+                    <FiMail size={24} />
                   </div>
-                  <div className="text-lg font-bold tracking-tight">{resumeData.email}</div>
+                  <div>
+                    <span className="text-[10px] font-black uppercase text-mocha/40 tracking-[0.2em] block mb-1">Direct Line</span>
+                    <span className="text-2xl font-bold tracking-tight">{resumeData.email}</span>
+                  </div>
                 </a>
-                <div className="flex items-center gap-5 group">
-                  <div className="w-12 h-12 rounded-2xl bg-white/20 border border-white/30 flex items-center justify-center">
-                    <FiMapPin size={22} />
-                  </div>
-                  <div className="text-lg font-bold tracking-tight">{resumeData.location}</div>
-                </div>
+              </div>
+
+              <div className="flex gap-6 mt-20">
+                <a 
+                  href={`https://github.com/${resumeData.github}`}
+                  target="_blank"
+                  className="w-16 h-16 rounded-3xl bg-mocha/5 dark:bg-white/5 border border-mocha/10 flex items-center justify-center hover:bg-bronze hover:text-white transition-all group"
+                >
+                  <FiGithub size={24} />
+                </a>
+                <a 
+                  href={`https://linkedin.com/in/${resumeData.linkedin}`}
+                  target="_blank"
+                  className="w-16 h-16 rounded-3xl bg-mocha/5 dark:bg-white/5 border border-mocha/10 flex items-center justify-center hover:bg-bronze hover:text-white transition-all group"
+                >
+                  <FiLinkedin size={24} />
+                </a>
               </div>
             </div>
 
-            <div className="flex gap-6 mt-16">
-              <a
-                href={`https://github.com/${resumeData.github}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-14 h-14 rounded-2xl bg-white/10 border border-white/20 flex items-center justify-center hover:bg-white hover:text-brand-primary transition-all active:scale-95"
-              >
-                <FiGithub size={24} />
-              </a>
-              <a
-                href={`https://linkedin.com/in/${resumeData.linkedin}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-14 h-14 rounded-2xl bg-white/10 border border-white/20 flex items-center justify-center hover:bg-white hover:text-brand-primary transition-all active:scale-95"
-              >
-                <FiLinkedin size={24} />
-              </a>
-            </div>
-          </div>
-
-          {/* Contact Form */}
-          <div className="p-12 lg:w-3/5 bg-black/40">
-            <form onSubmit={handleSubmit} className="space-y-8">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div className="space-y-2">
-                  <label className="text-xs font-black uppercase text-muted-foreground tracking-widest ml-1">Your Name</label>
+            <div>
+              <form onSubmit={handleSubmit} className="space-y-12">
+                <div className="space-y-4">
+                  <label className="text-xs font-black uppercase text-mocha/40 tracking-widest block ml-2">Identity</label>
                   <input
                     type="text"
                     required
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 focus:outline-none focus:ring-2 focus:ring-brand-primary/50 focus:border-brand-primary transition-all font-bold placeholder:text-white/20"
-                    placeholder="Enter your name"
+                    className="w-full bg-transparent border-b-2 border-mocha/10 focus:border-bronze py-6 px-4 text-2xl font-serif font-black focus:outline-none transition-colors placeholder:text-mocha/10"
+                    placeholder="Full Name"
                   />
                 </div>
-                <div className="space-y-2">
-                  <label className="text-xs font-black uppercase text-muted-foreground tracking-widest ml-1">Your Email</label>
+                <div className="space-y-4">
+                  <label className="text-xs font-black uppercase text-mocha/40 tracking-widest block ml-2">Digital Address</label>
                   <input
                     type="email"
                     required
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 focus:outline-none focus:ring-2 focus:ring-brand-primary/50 focus:border-brand-primary transition-all font-bold placeholder:text-white/20"
-                    placeholder="name@company.com"
+                    className="w-full bg-transparent border-b-2 border-mocha/10 focus:border-bronze py-6 px-4 text-2xl font-serif font-black focus:outline-none transition-colors placeholder:text-mocha/10"
+                    placeholder="Email Address"
                   />
                 </div>
-              </div>
-              <div className="space-y-2">
-                <label className="text-xs font-black uppercase text-muted-foreground tracking-widest ml-1">Message</label>
-                <textarea
-                  required
-                  rows="5"
-                  value={formData.message}
-                  onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                  className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 focus:outline-none focus:ring-2 focus:ring-brand-primary/50 focus:border-brand-primary transition-all font-bold placeholder:text-white/20 resize-none"
-                  placeholder="How can I help you today?"
-                />
-              </div>
-              <button
-                type="submit"
-                disabled={status === "sending"}
-                className={`w-full py-5 rounded-2xl font-black text-lg flex items-center justify-center gap-3 transition-all ${
-                  status === "success" 
-                  ? "bg-green-500 text-white" 
-                  : "bg-brand-primary text-white neon-glow hover:scale-[1.01] active:scale-95 shadow-lg shadow-brand-primary/20"
-                }`}
-              >
-                {status === "sending" ? (
-                  <div className="w-6 h-6 border-3 border-white/20 border-t-white rounded-full animate-spin" />
-                ) : status === "success" ? (
-                  "Submitted Successfully!"
-                ) : (
-                  <>
-                    Launch Message <FiSend className="rotate-45" />
-                  </>
-                )}
-              </button>
-            </form>
+                <div className="space-y-4">
+                  <label className="text-xs font-black uppercase text-mocha/40 tracking-widest block ml-2">Inquiry</label>
+                  <textarea
+                    required
+                    rows="2"
+                    value={formData.message}
+                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                    className="w-full bg-transparent border-b-2 border-mocha/10 focus:border-bronze py-6 px-4 text-2xl font-serif font-black focus:outline-none transition-colors placeholder:text-mocha/10 resize-none"
+                    placeholder="Brief Project Overview"
+                  />
+                </div>
+                <button
+                  type="submit"
+                  disabled={status === "sending"}
+                  className="w-full group mt-12 overflow-hidden relative glass-btn bg-mocha text-white dark:bg-white dark:text-mocha !py-6 !text-2xl font-serif shadow-2xl shadow-mocha/20 flex items-center justify-center gap-6"
+                >
+                  <span className="relative z-10">
+                    {status === "sending" ? "INITIATING..." : status === "success" ? "TRANSMITTED." : "SEND INQUIRY"}
+                  </span>
+                  <FiArrowUpRight size={32} className="relative z-10 transition-transform group-hover:translate-x-2 group-hover:-translate-y-2" />
+                  <div className="absolute inset-x-0 bottom-0 h-0 bg-bronze transition-all duration-500 group-hover:h-full z-0" />
+                </button>
+              </form>
+            </div>
           </div>
         </div>
       </div>
